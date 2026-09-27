@@ -1,0 +1,49 @@
+\documentclass[aps,prl,reprint,twocolumn,superscriptaddress,amsmath,amssymb,floatfix,nobalancelastpage]{revtex4-2}
+\usepackage{graphicx}
+\usepackage{dcolumn}
+\usepackage{bm}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\hypersetup{colorlinks=true, linkcolor=blue!70!black, citecolor=blue!70!black, urlcolor=blue!80!black}
+
+\newcommand{\tr}{\operatorname{Tr}}
+\newcommand{\irrep}[1]{\mathbf{#1}}
+\newcommand{\inv}[1]{#1^{-1}}
+
+\begin{document}
+
+\title{Group-Theoretic Resolution of Molecular Symmetries and Selection Rules:\\From Planar Dihedral $D_{6h}$ to Icosahedral $Y_h$ Fullerenes}
+
+\author{Your Name}
+\email{your_email@institution.edu}
+\affiliation{Department of Physics, Your University, City, Country}
+
+\author{Teammate Name}
+\email{teammate_email@institution.edu}
+\affiliation{Department of Physics, Your University, City, Country}
+
+\date{\today}
+
+\begin{abstract}
+We present a self-contained group-theoretic investigation resolving the mechanical degrees of freedom, vibrational representations, and optical selection rules of high-symmetry molecular systems. Treating the dihedral group $D_{6h}$ (exemplified by benzene, $\text{C}_6\text{H}_6$) and the full icosahedral point group $Y_h$ (represented by buckminsterfullerene, $\text{C}_{60}$), we construct the respective character tables from first principles and reduce the total mechanical representations ($\Gamma_{3N}$) via the projection operator formalism. We demonstrate how the $3N-6=174$ vibrational modes of $\text{C}_{60}$ collapse into only 4 infrared-active ($T_{1u}$) and 10 Raman-active ($A_g + H_g$) fundamentals under the mutual exclusion rule for centrosymmetric groups. Furthermore, the splitting of degenerate representations under progressive symmetry descent and its implications for dynamic Jahn--Teller instabilities are derived.
+\end{abstract}
+
+\maketitle
+
+\input{sections/01_introduction}
+\input{sections/02_theoretical_framework}
+\input{sections/03_dnh_dihedral}
+\input{sections/04_yh_icosahedral}
+\input{sections/05_comparative_analysis}
+\input{sections/06_conclusion}
+
+\section*{Data and Software Availability}
+The interactive 3D WebGL engine demonstrating all 120 symmetry operations, invariant axes, and normal modes of the $Y_h$ manifold is publicly hosted at \url{https://siriricomun.github.io/molecular-symmetry/}. Full source code, numerical projection routines, and vector graphical assets are archived in the project repository \cite{RepositorySource}.
+
+\bibliography{references}
+
+\end{document}

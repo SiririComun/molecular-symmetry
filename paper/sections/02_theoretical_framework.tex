@@ -1,0 +1,23 @@
+\section{Theoretical Framework}
+\label{sec:theory}
+Consider a molecule containing $N$ nuclei. The nuclear excursions from equilibrium constitute a $3N$-dimensional configuration space $V$. A symmetry transformation $g \in G$ maps this configuration onto itself, generating a reducible representation $\Gamma_{3N}$.
+
+Following the unshifted-atom theorems~\cite{Ramadevi2019}, the characters of the representation for proper rotations $C_\theta$ and improper rotations/roto-reflections $S_\theta$ are:
+\begin{align}
+\chi^{3N}(C_\theta) &= N_C (1 + 2\cos\theta), \label{eq:unshifted_C} \\
+\chi^{3N}(S_\theta) &= N_S (-1 + 2\cos\theta), \label{eq:unshifted_S}
+\end{align}
+where $N_C$ and $N_S$ represent the number of atomic nuclei unshifted under the respective operation. Pure reflection $\sigma$ is evaluated as $S_0$ ($N_\sigma$), while spatial inversion $i$ corresponds to $S_\pi$ (yielding $-3N_i$).
+
+The purely vibrational representation $\Gamma_V$ is obtained by subtracting the representations corresponding to translational ($\Gamma_{\text{trans}}$) and rotational ($\Gamma_{\text{rot}}$) motion of the molecule as a rigid body:
+\begin{equation}
+\Gamma_V = \Gamma_{3N} - \Gamma_{\text{trans}} - \Gamma_{\text{rot}}.
+\label{eq:gamma_vib_def}
+\end{equation}
+
+By Maschke's theorem and the Great Orthogonality Theorem, any reducible representation $\Gamma$ decomposes into irreducible representations (irreps) $\Gamma^\alpha$ with multiplicity $m_\alpha$:
+\begin{equation}
+m_\alpha = \frac{1}{|G|} \sum_{g \in G} \chi^\Gamma(g) \chi^{\Gamma^\alpha}(g)^*,
+\label{eq:multiplicity}
+\end{equation}
+where $|G|$ denotes the order of the group.

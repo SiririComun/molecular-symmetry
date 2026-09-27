@@ -1,0 +1,29 @@
+\section{Resolution of the $Y_h$ Group: Buckminsterfullerene ($\text{C}_{60}$)}
+\label{sec:yh}
+
+The full icosahedral point group $Y_h$ governs systems possessing the rotational symmetry of a regular icosahedron or dodecahedron combined with central inversion:
+\begin{equation}
+Y_h \cong Y \times C_i.
+\end{equation}
+The group order is $|Y_h| = 60 \times 2 = 120$. Its 120 operations partition into 10 conjugacy classes: $E$, $12C_5$, $12C_5^2$, $20C_3$, $15C_2$, $i$, $12S_{10}$, $12S_{10}^3$, $20S_6$, and $15\sigma$.
+
+The 60 carbon atoms of $\text{C}_{60}$ lie at the vertices of a truncated icosahedron (alternating 12 pentagonal and 20 hexagonal faces). Because no atom resides on any rotational axis or mirror plane, the unshifted atom count is vanishingly sparse:
+\begin{align}
+N_E &= 60, \nonumber \\
+N_R &= 0 \quad \forall \; R \in \{C_5, C_5^2, C_3, C_2, i, S_{10}, S_{10}^3, S_6\}, \nonumber \\
+N_\sigma &= 0.
+\end{align}
+Only the identity operation fixes any nuclei.
+
+\input{tables/tab_yh_characters}
+
+Applying Eq.~(\ref{eq:unshifted_C}) and Eq.~(\ref{eq:gamma_vib_def}), the mechanical character vector across the 10 classes is:
+\begin{equation}
+\chi^{3N} = (180, 0, 0, 0, 0, 0, 0, 0, 0, 0).
+\end{equation}
+Subtracting rigid motions $\Gamma_{\text{trans}} = T_{1u}$ and $\Gamma_{\text{rot}} = T_{1g}$, the vibrational representation $\Gamma_V$ ($174$ degrees of freedom) decomposes using Eq.~(\ref{eq:multiplicity}) into:
+\begin{align}
+\Gamma_V &= 2A_g \oplus 1A_u \oplus 3T_{1g} \oplus 4T_{1u} \oplus 4T_{2g} \nonumber \\
+         &\quad \oplus 5T_{2u} \oplus 6G_g \oplus 6G_u \oplus 8H_g \oplus 7H_u.
+\label{eq:c60_decomposition}
+\end{align}
