@@ -1,0 +1,48 @@
+# ==============================================================================
+# LaTeX Artifacts
+# ==============================================================================
+*.aux
+*.bbl
+*.blg
+*.brf
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.pdfsync
+*.synctex.gz
+*.toc
+*.run.xml
+*.bcf
+*.dvi
+*Notes.bib
+*.spl
+
+# REVTeX Specific
+*-blx.bib
+
+# Compiled target (ignored in repo root; tracked via CI artifacts/releases)
+paper/main.pdf
+
+# ==============================================================================
+# Python / Virtual Environment
+# ==============================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.env
+.venv/
+env/
+venv/
+*.egg-info/
+.pytest_cache/
+
+# ==============================================================================
+# Operating System & IDEs
+# ==============================================================================
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp

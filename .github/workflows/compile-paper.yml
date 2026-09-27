@@ -1,0 +1,36 @@
+name: Compile REVTeX Manuscript
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'paper/**'
+      - '.github/workflows/compile-paper.yml'
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - 'paper/**'
+
+jobs:
+  build-latex:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Compile LaTeX Document
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: main.tex
+          working_directory: paper
+          latexmk_use_pdflatex: true
+          args: -pdf -bibtex -interaction=nonstopmode -halt-on-error
+
+      - name: Rename Compiled PDF
+        run: mv paper/main.pdf paper/molecular_symmetry_review.pdf
+
+      - name: Upload PDF Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Molecular-Symmetry-Paper
+          path: paper/molecular_symmetry_review.pdf
