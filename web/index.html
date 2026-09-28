@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simetría Icosaédrica Y_h - Buckminsterfullereno C60</title>
+    <title>Plataforma de Simetría Molecular: D6h (Benceno) y Yh (C60)</title>
     <style>
         * {
             box-sizing: border-box;
@@ -11,12 +12,15 @@
             padding: 0;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
-        body, html {
+
+        body,
+        html {
             width: 100%;
             height: 100%;
             overflow: hidden;
             background-color: #0f172a;
         }
+
         #canvas-container {
             width: 100%;
             height: 100%;
@@ -24,155 +28,197 @@
             top: 0;
             left: 0;
         }
-        /* Panel de Control Flotante */
+
+        /* Panel Flotante */
         .ui-card {
             position: absolute;
             top: 20px;
             right: 20px;
-            background: rgba(15, 23, 42, 0.85);
-            backdrop-filter: blur(12px);
+            background: rgba(15, 23, 42, 0.90);
+            backdrop-filter: blur(14px);
             border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 12px;
-            padding: 20px;
-            width: 320px;
+            padding: 18px;
+            width: 340px;
             color: #f8fafc;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
             z-index: 10;
+            max-height: calc(100vh - 40px);
+            display: flex;
+            flex-direction: column;
         }
+
         .ui-card h2 {
-            font-size: 1.1rem;
-            margin-bottom: 6px;
+            font-size: 1.15rem;
+            margin-bottom: 4px;
             color: #38bdf8;
+        }
+
+        .ui-card p {
+            font-size: 0.76rem;
+            color: #94a3b8;
+            margin-bottom: 12px;
+            line-height: 1.35;
+        }
+
+        .select-label {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #e2e8f0;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .select-input {
+            width: 100%;
+            padding: 8px 10px;
+            background: rgba(30, 41, 59, 0.95);
+            color: #38bdf8;
+            border: 1px solid rgba(56, 189, 248, 0.4);
+            border-radius: 7px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            outline: none;
+            margin-bottom: 12px;
+            cursor: pointer;
+        }
+
+        /* Sección de Animación */
+        .anim-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 12px;
+        }
+
+        .anim-box h3 {
+            font-size: 0.82rem;
+            color: #f59e0b;
+            margin-bottom: 6px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
-        .ui-card p {
-            font-size: 0.8rem;
-            color: #94a3b8;
-            margin-bottom: 16px;
-            line-height: 1.4;
-        }
+
+        /* Controles de Capas */
         .control-group {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            margin-bottom: 18px;
+            gap: 8px;
+            margin-bottom: 14px;
+            overflow-y: auto;
+            max-height: 180px;
+            padding-right: 4px;
         }
+
         .checkbox-label {
             display: flex;
             align-items: center;
-            font-size: 0.85rem;
+            font-size: 0.80rem;
             cursor: pointer;
-            gap: 10px;
+            gap: 8px;
             user-select: none;
         }
+
         .checkbox-label input {
             accent-color: #38bdf8;
-            width: 16px;
-            height: 16px;
+            width: 14px;
+            height: 14px;
             cursor: pointer;
         }
+
         .badge {
             display: inline-block;
-            width: 12px;
-            height: 12px;
-            border-radius: 3px;
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
         }
+
         /* Botones */
         .btn {
             display: block;
             width: 100%;
-            padding: 10px 14px;
-            border-radius: 8px;
+            padding: 9px 12px;
+            border-radius: 7px;
             border: none;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s ease;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
+
         .btn-primary {
             background: linear-gradient(135deg, #0284c7, #0369a1);
             color: white;
             box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
         }
+
         .btn-primary:hover {
             background: linear-gradient(135deg, #0369a1, #075985);
             transform: translateY(-1px);
         }
+
+        .btn-anim {
+            background: linear-gradient(135deg, #d97706, #b45309);
+            color: white;
+            box-shadow: 0 4px 12px rgba(217, 119, 6, 0.35);
+        }
+
+        .btn-anim:hover {
+            background: linear-gradient(135deg, #b45309, #92400e);
+        }
+
         .btn-secondary {
             background: rgba(255, 255, 255, 0.08);
             color: #e2e8f0;
             border: 1px solid rgba(255, 255, 255, 0.15);
         }
+
         .btn-secondary:hover {
             background: rgba(255, 255, 255, 0.15);
         }
-        /* Footer Badge */
+
         .footer-info {
             position: absolute;
             bottom: 20px;
             left: 20px;
             color: #64748b;
             font-size: 0.8rem;
-            background: rgba(15, 23, 42, 0.7);
+            background: rgba(15, 23, 42, 0.75);
             padding: 8px 14px;
             border-radius: 6px;
             border: 1px solid rgba(255, 255, 255, 0.08);
             pointer-events: none;
         }
     </style>
-    <!-- Three.js y OrbitControls desde CDN oficial -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 </head>
+
 <body>
     <div id="canvas-container"></div>
 
     <div class="ui-card">
-        <h2>Simetría <i>Y<sub>h</sub></i>: C<sub>60</sub></h2>
-        <p>Inspección interactiva de los 120 operadores de simetría y verificación geométrica de los 4 átomos invariantes sobre el plano &sigma;.</p>
+        <h2 id="mol-title">Simetría Molecular</h2>
+        <p id="mol-desc">Inspección de operadores de simetría en el espacio euclídeo.</p>
 
-        <div class="control-group">
-            <label class="checkbox-label">
-                <input type="checkbox" id="toggle-atoms" checked>
-                <span>Núcleos C (56 átomos)</span>
-            </label>
-            <label class="checkbox-label">
-                <input type="checkbox" id="toggle-unshifted" checked>
-                <span class="badge" style="background: #f59e0b;"></span>
-                <span><b>Átomos invariantes &sigma; (<i>N<sub>&sigma;</sub>=4</i>)</b></span>
-            </label>
-            <label class="checkbox-label">
-                <input type="checkbox" id="toggle-bonds" checked>
-                <span>Enlaces C-C (90 aristas)</span>
-            </label>
-            <label class="checkbox-label">
-                <input type="checkbox" id="toggle-plane" checked>
-                <span class="badge" style="background: #06b6d4;"></span>
-                <span>Plano &sigma; (<i>x = 0</i>)</span>
-            </label>
-            <label class="checkbox-label">
-                <input type="checkbox" id="toggle-c5" checked>
-                <span class="badge" style="background: #10b981;"></span>
-                <span>Eje <i>C<sub>5</sub></i> (Pentágono)</span>
-            </label>
-            <label class="checkbox-label">
-                <input type="checkbox" id="toggle-c3" checked>
-                <span class="badge" style="background: #3b82f6;"></span>
-                <span>Eje <i>C<sub>3</sub></i> (Hexágono)</span>
-            </label>
-            <label class="checkbox-label">
-                <input type="checkbox" id="toggle-c2" checked>
-                <span class="badge" style="background: #8b5cf6;"></span>
-                <span>Eje <i>C<sub>2</sub></i> (Enlace 6:6)</span>
-            </label>
-            <label class="checkbox-label">
-                <input type="checkbox" id="toggle-autorotate">
-                <span>Auto-rotación suave</span>
-            </label>
+        <label class="select-label" for="mol-select">Sistema Molecular:</label>
+        <select id="mol-select" class="select-input">
+            <option value="c60">Buckminsterfullereno C60 (Grupo Y_h)</option>
+            <option value="benzene">Benceno C6H6 (Grupo D_6h)</option>
+        </select>
+
+        <!-- Sección de Animación de Operadores -->
+        <div class="anim-box">
+            <h3>Operación de Simetría</h3>
+            <select id="op-select" class="select-input" style="margin-bottom: 8px;"></select>
+            <button class="btn btn-anim" id="btn-apply-op">Ejecutar Transformación</button>
         </div>
+
+        <!-- Capas de visualización -->
+        <div class="control-group" id="controls-container"></div>
 
         <button class="btn btn-primary" id="btn-snapshot">Descargar Figura 4K (Paper)</button>
         <button class="btn btn-secondary" id="btn-reset">Restablecer Cámara</button>
@@ -185,7 +231,7 @@
 
     <script>
         // ---------------------------------------------------------------------
-        // 1. Configuración de Escena, Cámara y Renderizador WebGL
+        // 1. Escena, Cámara y Renderizador WebGL
         // ---------------------------------------------------------------------
         const container = document.getElementById("canvas-container");
         const scene = new THREE.Scene();
@@ -206,10 +252,8 @@
         controls.enableDamping = true;
         controls.dampingFactor = 0.05;
 
-        // ---------------------------------------------------------------------
-        // 2. Iluminación de Estudio Fotográfico
-        // ---------------------------------------------------------------------
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+        // Luces de Estudio
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.65);
         scene.add(ambientLight);
 
         const keyLight = new THREE.DirectionalLight(0xffffff, 0.9);
@@ -225,134 +269,31 @@
         scene.add(backLight);
 
         // ---------------------------------------------------------------------
-        // 3. Generación Analítica de los 60 Vértices (Razón Áurea tau)
+        // 2. Jerarquía de Grupos (Molécula vs Ejes de Simetría)
         // ---------------------------------------------------------------------
-        const tau = (1.0 + Math.sqrt(5.0)) / 2.0;
-        const R_molecular = 4.2;
-
-        function evenPermutations(x, y, z) {
-            return [
-                new THREE.Vector3(x, y, z),
-                new THREE.Vector3(y, z, x),
-                new THREE.Vector3(z, x, y)
-            ];
-        }
-
-        const rawVertices = [];
-        const signs2 = [[1, 1], [1, -1], [-1, 1], [-1, -1]];
-        const signs3 = [];
-        for (let s1 of [-1, 1])
-            for (let s2 of [-1, 1])
-                for (let s3 of [-1, 1])
-                    signs3.push([s1, s2, s3]);
-
-        // Conjunto 1: (0, \pm 1, \pm 3*tau)
-        for (let s of signs2) {
-            for (let p of evenPermutations(0, s[0] * 1.0, s[1] * 3.0 * tau)) {
-                rawVertices.push(p);
-            }
-        }
-        // Conjunto 2: (\pm 2, \pm (1 + 2*tau), \pm tau)
-        for (let s of signs3) {
-            for (let p of evenPermutations(s[0] * 2.0, s[1] * (1.0 + 2.0 * tau), s[2] * tau)) {
-                rawVertices.push(p);
-            }
-        }
-        // Conjunto 3: (\pm 1, \pm (2 + tau), \pm 2*tau)
-        for (let s of signs3) {
-            for (let p of evenPermutations(s[0] * 1.0, s[1] * (2.0 + tau), s[2] * 2.0 * tau)) {
-                rawVertices.push(p);
-            }
-        }
-
-        // Eliminar duplicados geométricos y escalar
-        const vertices = [];
-        for (let v of rawVertices) {
-            let exists = false;
-            for (let u of vertices) {
-                if (v.distanceTo(u) < 1e-4) {
-                    exists = true;
-                    break;
-                }
-            }
-            if (!exists) vertices.push(v);
-        }
-
-        const currentR = vertices[0].length();
-        vertices.forEach(v => v.multiplyScalar(R_molecular / currentR));
-
-        // ---------------------------------------------------------------------
-        // 4. Construcción de Geometría Molecular: Átomos y Enlaces 3D
-        // ---------------------------------------------------------------------
-        const standardAtomGroup = new THREE.Group();
-        const unshiftedAtomGroup = new THREE.Group();
-        const bondGroup = new THREE.Group();
-        scene.add(standardAtomGroup);
-        scene.add(unshiftedAtomGroup);
-        scene.add(bondGroup);
-
-        const sphereGeo = new THREE.SphereGeometry(0.24, 32, 32);
-        const unshiftedSphereGeo = new THREE.SphereGeometry(0.36, 32, 32);
-
-        const carbonMaterial = new THREE.MeshStandardMaterial({
-            color: 0x334155,
-            metalness: 0.4,
-            roughness: 0.3
-        });
-
-        const goldMaterial = new THREE.MeshStandardMaterial({
-            color: 0xf59e0b,
-            emissive: 0x78350f,
-            emissiveIntensity: 0.35,
-            metalness: 0.8,
-            roughness: 0.15
-        });
-
-        // Detectar los 4 átomos sobre x = 0
-        vertices.forEach((v) => {
-            const isUnshifted = Math.abs(v.x) < 1e-3;
-            if (isUnshifted) {
-                const mesh = new THREE.Mesh(unshiftedSphereGeo, goldMaterial);
-                mesh.position.copy(v);
-                unshiftedAtomGroup.add(mesh);
-            } else {
-                const mesh = new THREE.Mesh(sphereGeo, carbonMaterial);
-                mesh.position.copy(v);
-                standardAtomGroup.add(mesh);
-            }
-        });
-
-        // 90 enlaces cilíndricos
-        const bondMaterial = new THREE.MeshStandardMaterial({
-            color: 0x64748b,
-            metalness: 0.2,
-            roughness: 0.5
-        });
-
-        for (let i = 0; i < vertices.length; i++) {
-            for (let j = i + 1; j < vertices.length; j++) {
-                const dist = vertices[i].distanceTo(vertices[j]);
-                if (dist > 1.4 && dist < 2.0) {
-                    const dir = new THREE.Vector3().subVectors(vertices[j], vertices[i]);
-                    const len = dir.length();
-                    const bondGeo = new THREE.CylinderGeometry(0.065, 0.065, len, 16);
-                    const bondMesh = new THREE.Mesh(bondGeo, bondMaterial);
-
-                    const mid = new THREE.Vector3().addVectors(vertices[i], vertices[j]).multiplyScalar(0.5);
-                    bondMesh.position.copy(mid);
-
-                    const axis = new THREE.Vector3(0, 1, 0);
-                    bondMesh.quaternion.setFromUnitVectors(axis, dir.normalize());
-                    bondGroup.add(bondMesh);
-                }
-            }
-        }
-
-        // ---------------------------------------------------------------------
-        // 5. Elementos de Simetría (Ejes C5, C3, C2 y Plano Sigma)
-        // ---------------------------------------------------------------------
+        // La molécula rota/se transforma; los ejes de simetría se quedan fijos en el espacio
+        const moleculeGroup = new THREE.Group();
         const symmetryGroup = new THREE.Group();
+        scene.add(moleculeGroup);
         scene.add(symmetryGroup);
+
+        // Materiales
+        const carbonMaterial = new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.45, roughness: 0.28 });
+        const hydrogenMaterial = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, metalness: 0.2, roughness: 0.2 });
+        const goldMaterial = new THREE.MeshStandardMaterial({ color: 0xf59e0b, emissive: 0x78350f, emissiveIntensity: 0.35, metalness: 0.85, roughness: 0.15 });
+        const bondMaterial = new THREE.MeshStandardMaterial({ color: 0x64748b, metalness: 0.2, roughness: 0.5 });
+
+        function createCylinderBond(p1, p2, radius, material) {
+            const dir = new THREE.Vector3().subVectors(p2, p1);
+            const len = dir.length();
+            const bondGeo = new THREE.CylinderGeometry(radius, radius, len, 16);
+            const bondMesh = new THREE.Mesh(bondGeo, material);
+            const mid = new THREE.Vector3().addVectors(p1, p2).multiplyScalar(0.5);
+            bondMesh.position.copy(mid);
+            const axis = new THREE.Vector3(0, 1, 0);
+            bondMesh.quaternion.setFromUnitVectors(axis, dir.normalize());
+            return bondMesh;
+        }
 
         function createAxis(direction, length, color) {
             const group = new THREE.Group();
@@ -360,12 +301,10 @@
             const cylinderGeo = new THREE.CylinderGeometry(0.04, 0.04, length * 2, 16);
             const mat = new THREE.MeshBasicMaterial({ color: color });
             const cylinder = new THREE.Mesh(cylinderGeo, mat);
-
             const axis = new THREE.Vector3(0, 1, 0);
             cylinder.quaternion.setFromUnitVectors(axis, dir);
             group.add(cylinder);
 
-            // Puntas de flecha
             const coneGeo = new THREE.ConeGeometry(0.18, 0.5, 16);
             const cone1 = new THREE.Mesh(coneGeo, mat);
             cone1.position.copy(dir.clone().multiplyScalar(length));
@@ -380,63 +319,334 @@
             return group;
         }
 
-        // Eje C5 (pentagonal)
-        const axisC5 = createAxis(new THREE.Vector3(0, 1, tau), R_molecular * 1.5, 0x10b981);
-        symmetryGroup.add(axisC5);
+        // ---------------------------------------------------------------------
+        // 3. Modelado: C60 y Benceno
+        // ---------------------------------------------------------------------
+        const tau = (1.0 + Math.sqrt(5.0)) / 2.0;
+        let currentOperations = [];
 
-        // Eje C3 (hexagonal)
-        const axisC3 = createAxis(new THREE.Vector3(1, 1, 1), R_molecular * 1.45, 0x3b82f6);
-        symmetryGroup.add(axisC3);
+        function buildC60() {
+            const R_molecular = 4.2;
+            function evenPermutations(x, y, z) {
+                return [new THREE.Vector3(x, y, z), new THREE.Vector3(y, z, x), new THREE.Vector3(z, x, y)];
+            }
+            const rawVertices = [];
+            for (let s1 of [-1, 1]) {
+                for (let s2 of [-1, 1]) {
+                    for (let p of evenPermutations(0, s1 * 1.0, s2 * 3.0 * tau)) rawVertices.push(p);
+                    for (let s3 of [-1, 1]) {
+                        for (let p of evenPermutations(s1 * 2.0, s2 * (1.0 + 2.0 * tau), s3 * tau)) rawVertices.push(p);
+                        for (let p of evenPermutations(s1 * 1.0, s2 * (2.0 + tau), s3 * 2.0 * tau)) rawVertices.push(p);
+                    }
+                }
+            }
+            const vertices = [];
+            for (let v of rawVertices) {
+                let exists = false;
+                for (let u of vertices) { if (v.distanceTo(u) < 1e-4) { exists = true; break; } }
+                if (!exists) vertices.push(v);
+            }
+            const currentR = vertices[0].length();
+            vertices.forEach(v => v.multiplyScalar(R_molecular / currentR));
 
-        // Eje C2 (binario)
-        const axisC2 = createAxis(new THREE.Vector3(0, 0, 1), R_molecular * 1.45, 0x8b5cf6);
-        symmetryGroup.add(axisC2);
+            const stdAtoms = new THREE.Group();
+            const unshiftedAtoms = new THREE.Group();
+            const bonds = new THREE.Group();
 
-        // Plano sigma (x = 0)
-        const planeGeo = new THREE.RingGeometry(0, R_molecular * 1.25, 64);
-        const planeMat = new THREE.MeshStandardMaterial({
-            color: 0x06b6d4,
-            transparent: true,
-            opacity: 0.28,
-            side: THREE.DoubleSide,
-            roughness: 0.2
-        });
-        const planeMesh = new THREE.Mesh(planeGeo, planeMat);
-        planeMesh.rotation.y = Math.PI / 2; // Normal a lo largo del eje x
-        symmetryGroup.add(planeMesh);
+            const sphereGeo = new THREE.SphereGeometry(0.24, 32, 32);
+            const unshiftedGeo = new THREE.SphereGeometry(0.36, 32, 32);
 
-        // Anillo de borde para el plano sigma
-        const edgeGeo = new THREE.RingGeometry(R_molecular * 1.23, R_molecular * 1.25, 64);
-        const edgeMat = new THREE.MeshBasicMaterial({ color: 0x0284c7, side: THREE.DoubleSide });
-        const edgeMesh = new THREE.Mesh(edgeGeo, edgeMat);
-        edgeMesh.rotation.y = Math.PI / 2;
-        symmetryGroup.add(edgeMesh);
+            vertices.forEach(v => {
+                if (Math.abs(v.x) < 1e-3) {
+                    const m = new THREE.Mesh(unshiftedGeo, goldMaterial);
+                    m.position.copy(v);
+                    unshiftedAtoms.add(m);
+                } else {
+                    const m = new THREE.Mesh(sphereGeo, carbonMaterial);
+                    m.position.copy(v);
+                    stdAtoms.add(m);
+                }
+            });
+
+            for (let i = 0; i < vertices.length; i++) {
+                for (let j = i + 1; j < vertices.length; j++) {
+                    const d = vertices[i].distanceTo(vertices[j]);
+                    if (d > 1.4 && d < 2.0) {
+                        bonds.add(createCylinderBond(vertices[i], vertices[j], 0.065, bondMaterial));
+                    }
+                }
+            }
+            moleculeGroup.add(stdAtoms, unshiftedAtoms, bonds);
+
+            // Ejes fijos en el espacio
+            const n5 = new THREE.Vector3(0, 1, tau).normalize();
+            const n3 = new THREE.Vector3(1, 1, 1).normalize();
+            const n2 = new THREE.Vector3(0, 0, 1).normalize();
+
+            const axisC5 = createAxis(n5, R_molecular * 1.5, 0x10b981);
+            const axisC3 = createAxis(n3, R_molecular * 1.45, 0x3b82f6);
+            const axisC2 = createAxis(n2, R_molecular * 1.45, 0x8b5cf6);
+
+            const planeMesh = new THREE.Mesh(
+                new THREE.RingGeometry(0, R_molecular * 1.25, 64),
+                new THREE.MeshStandardMaterial({ color: 0x06b6d4, transparent: true, opacity: 0.28, side: THREE.DoubleSide })
+            );
+            planeMesh.rotation.y = Math.PI / 2;
+
+            const edgeMesh = new THREE.Mesh(
+                new THREE.RingGeometry(R_molecular * 1.23, R_molecular * 1.25, 64),
+                new THREE.MeshBasicMaterial({ color: 0x0284c7, side: THREE.DoubleSide })
+            );
+            edgeMesh.rotation.y = Math.PI / 2;
+            symmetryGroup.add(axisC5, axisC3, axisC2, planeMesh, edgeMesh);
+
+            return {
+                title: "Simetría <i>Y<sub>h</sub></i>: C<sub>60</sub>",
+                desc: "120 operaciones de simetría. Los 4 átomos dorados residen sobre el plano &sigma; (invariantes).",
+                controls: [
+                    { label: "Núcleos C (56 átomos)", obj: stdAtoms, checked: true },
+                    { label: "<b>Átomos invariantes &sigma; (<i>N<sub>&sigma;</sub>=4</i>)</b>", obj: unshiftedAtoms, color: "#f59e0b", checked: true },
+                    { label: "Enlaces C-C (90 aristas)", obj: bonds, checked: true },
+                    { label: "Plano &sigma; (<i>x = 0</i>)", obj: [planeMesh, edgeMesh], color: "#06b6d4", checked: true },
+                    { label: "Eje <i>C<sub>5</sub></i> (Pentágono)", obj: axisC5, color: "#10b981", checked: true },
+                    { label: "Eje <i>C<sub>3</sub></i> (Hexágono)", obj: axisC3, color: "#3b82f6", checked: true },
+                    { label: "Eje <i>C<sub>2</sub></i> (Enlace 6:6)", obj: axisC2, color: "#8b5cf6", checked: true }
+                ],
+                operations: [
+                    { name: "C5 (72° sobre Pentágono)", type: "rotate", axis: n5, angle: (2 * Math.PI) / 5 },
+                    { name: "C5^2 (144° sobre Pentágono)", type: "rotate", axis: n5, angle: (4 * Math.PI) / 5 },
+                    { name: "C3 (120° sobre Hexágono)", type: "rotate", axis: n3, angle: (2 * Math.PI) / 3 },
+                    { name: "C2 (180° sobre Enlace 6:6)", type: "rotate", axis: n2, angle: Math.PI },
+                    { name: "Inversión Espacial (i)", type: "invert" },
+                    { name: "Reflexión Plano sigma (x = 0)", type: "reflect", normal: new THREE.Vector3(1, 0, 0) },
+                    { name: "S10 (Roto-reflexión 36°)", type: "rotoreflect", axis: n5, angle: (2 * Math.PI) / 10, normal: n5 },
+                    { name: "S6 (Roto-inversión 60°)", type: "rotoreflect", axis: n3, angle: Math.PI / 3, normal: n3 }
+                ]
+            };
+        }
+
+        function buildBenzene() {
+            const R_C = 2.8;
+            const R_H = 4.4;
+            const carbonAtoms = new THREE.Group();
+            const hydrogenAtoms = new THREE.Group();
+            const bonds = new THREE.Group();
+
+            const cCoords = [];
+            const hCoords = [];
+            const cGeo = new THREE.SphereGeometry(0.32, 32, 32);
+            const hGeo = new THREE.SphereGeometry(0.20, 32, 32);
+
+            for (let k = 0; k < 6; k++) {
+                const angle = (k * Math.PI) / 3.0;
+                const cPos = new THREE.Vector3(R_C * Math.cos(angle), R_C * Math.sin(angle), 0);
+                const hPos = new THREE.Vector3(R_H * Math.cos(angle), R_H * Math.sin(angle), 0);
+                cCoords.push(cPos);
+                hCoords.push(hPos);
+
+                const cMesh = new THREE.Mesh(cGeo, carbonMaterial);
+                cMesh.position.copy(cPos);
+                carbonAtoms.add(cMesh);
+
+                const hMesh = new THREE.Mesh(hGeo, hydrogenMaterial);
+                hMesh.position.copy(hPos);
+                hydrogenAtoms.add(hMesh);
+
+                bonds.add(createCylinderBond(cPos, hPos, 0.05, bondMaterial));
+            }
+
+            for (let k = 0; k < 6; k++) {
+                bonds.add(createCylinderBond(cCoords[k], cCoords[(k + 1) % 6], 0.08, bondMaterial));
+            }
+            moleculeGroup.add(carbonAtoms, hydrogenAtoms, bonds);
+
+            // Ejes de D6h
+            const axisC6 = createAxis(new THREE.Vector3(0, 0, 1), 5.2, 0x10b981);
+            const axesC2Prime = new THREE.Group();
+            for (let a of [0, Math.PI / 3, (2 * Math.PI) / 3]) {
+                axesC2Prime.add(createAxis(new THREE.Vector3(Math.cos(a), Math.sin(a), 0), R_H * 1.25, 0x8b5cf6));
+            }
+            const axesC2DoublePrime = new THREE.Group();
+            for (let a of [Math.PI / 6, Math.PI / 2, (5 * Math.PI) / 6]) {
+                axesC2DoublePrime.add(createAxis(new THREE.Vector3(Math.cos(a), Math.sin(a), 0), R_H * 1.18, 0xd946ef));
+            }
+
+            const planeSigmaH = new THREE.Mesh(
+                new THREE.RingGeometry(0, R_H * 1.35, 64),
+                new THREE.MeshStandardMaterial({ color: 0x06b6d4, transparent: true, opacity: 0.24, side: THREE.DoubleSide })
+            );
+            const edgeSigmaH = new THREE.Mesh(
+                new THREE.RingGeometry(R_H * 1.33, R_H * 1.35, 64),
+                new THREE.MeshBasicMaterial({ color: 0x0284c7, side: THREE.DoubleSide })
+            );
+            symmetryGroup.add(axisC6, axesC2Prime, axesC2DoublePrime, planeSigmaH, edgeSigmaH);
+
+            return {
+                title: "Simetría <i>D<sub>6h</sub></i>: Benceno (C<sub>6</sub>H<sub>6</sub>)",
+                desc: "24 operaciones de simetría. Los 12 átomos yacen sobre el plano molecular &sigma;h.",
+                controls: [
+                    { label: "Núcleos C (6 átomos)", obj: carbonAtoms, checked: true },
+                    { label: "Núcleos H (6 átomos)", obj: hydrogenAtoms, color: "#e2e8f0", checked: true },
+                    { label: "Enlaces aromáticos (C-C y C-H)", obj: bonds, checked: true },
+                    { label: "Plano horizontal &sigma;<sub>h</sub> (molecular)", obj: [planeSigmaH, edgeSigmaH], color: "#06b6d4", checked: true },
+                    { label: "Eje principal <i>C<sub>6</sub></i> (eje <i>z</i>)", obj: axisC6, color: "#10b981", checked: true },
+                    { label: "3 Ejes <i>C<sub>2</sub>'</i> (por átomos)", obj: axesC2Prime, color: "#8b5cf6", checked: true },
+                    { label: "3 Ejes <i>C<sub>2</sub>''</i> (por aristas)", obj: axesC2DoublePrime, color: "#d946ef", checked: true }
+                ],
+                operations: [
+                    { name: "C6 (60° sobre eje z)", type: "rotate", axis: new THREE.Vector3(0, 0, 1), angle: Math.PI / 3 },
+                    { name: "C3 (120° sobre eje z)", type: "rotate", axis: new THREE.Vector3(0, 0, 1), angle: (2 * Math.PI) / 3 },
+                    { name: "C2 (180° sobre eje z)", type: "rotate", axis: new THREE.Vector3(0, 0, 1), angle: Math.PI },
+                    { name: "C2' (180° sobre eje C-H)", type: "rotate", axis: new THREE.Vector3(1, 0, 0), angle: Math.PI },
+                    { name: "C2'' (180° sobre bisectriz)", type: "rotate", axis: new THREE.Vector3(Math.cos(Math.PI / 6), Math.sin(Math.PI / 6), 0), angle: Math.PI },
+                    { name: "Inversión Espacial (i)", type: "invert" },
+                    { name: "Reflexión sigma_h (z = 0)", type: "reflect", normal: new THREE.Vector3(0, 0, 1) },
+                    { name: "Reflexión vertical sigma_v", type: "reflect", normal: new THREE.Vector3(0, 1, 0) }
+                ]
+            };
+        }
 
         // ---------------------------------------------------------------------
-        // 6. Interfaz y Controladores de Eventos
+        // 4. Motor de Animaciones de Transformación en Tiempo Real
         // ---------------------------------------------------------------------
-        document.getElementById("toggle-atoms").addEventListener("change", (e) => standardAtomGroup.visible = e.target.checked);
-        document.getElementById("toggle-unshifted").addEventListener("change", (e) => unshiftedAtomGroup.visible = e.target.checked);
-        document.getElementById("toggle-bonds").addEventListener("change", (e) => bondGroup.visible = e.target.checked);
-        document.getElementById("toggle-plane").addEventListener("change", (e) => {
-            planeMesh.visible = e.target.checked;
-            edgeMesh.visible = e.target.checked;
-        });
-        document.getElementById("toggle-c5").addEventListener("change", (e) => axisC5.visible = e.target.checked);
-        document.getElementById("toggle-c3").addEventListener("change", (e) => axisC3.visible = e.target.checked);
-        document.getElementById("toggle-c2").addEventListener("change", (e) => axisC2.visible = e.target.checked);
+        let isAnimating = false;
+        let animProgress = 0;
+        let currentAnim = null;
+        let startQuaternion = new THREE.Quaternion();
+        let targetQuaternion = new THREE.Quaternion();
+        let startScale = new THREE.Vector3(1, 1, 1);
+        let targetScale = new THREE.Vector3(1, 1, 1);
 
-        const autoRotateCheckbox = document.getElementById("toggle-autorotate");
-        autoRotateCheckbox.addEventListener("change", (e) => controls.autoRotate = e.target.checked);
-        controls.autoRotateSpeed = 1.5;
+        function triggerOperation(op) {
+            if (isAnimating) return;
+            isAnimating = true;
+            animProgress = 0;
+            currentAnim = op;
+
+            startQuaternion.copy(moleculeGroup.quaternion);
+            startScale.copy(moleculeGroup.scale);
+
+            if (op.type === "rotate") {
+                const deltaQ = new THREE.Quaternion().setFromAxisAngle(op.axis.clone().normalize(), op.angle);
+                targetQuaternion.multiplyQuaternions(deltaQ, startQuaternion);
+            } else if (op.type === "invert") {
+                // Inversión espacial animada suavemente
+                targetScale.set(-startScale.x, -startScale.y, -startScale.z);
+            } else if (op.type === "reflect") {
+                // Reflexión comprimiendo sobre la normal
+                targetScale.copy(startScale);
+                if (Math.abs(op.normal.x) > 0.5) targetScale.x = -targetScale.x;
+                if (Math.abs(op.normal.y) > 0.5) targetScale.y = -targetScale.y;
+                if (Math.abs(op.normal.z) > 0.5) targetScale.z = -targetScale.z;
+            } else if (op.type === "rotoreflect") {
+                const deltaQ = new THREE.Quaternion().setFromAxisAngle(op.axis.clone().normalize(), op.angle);
+                targetQuaternion.multiplyQuaternions(deltaQ, startQuaternion);
+            }
+        }
+
+        function updateAnimation(delta) {
+            if (!isAnimating || !currentAnim) return;
+
+            animProgress += delta * 1.25; // Velocidad de transformación
+            const t = Math.min(animProgress, 1.0);
+            const ease = 0.5 - 0.5 * Math.cos(Math.PI * t); // Curva sinusoidal suave
+
+            if (currentAnim.type === "rotate" || currentAnim.type === "rotoreflect") {
+                THREE.Quaternion.slerp(startQuaternion, targetQuaternion, moleculeGroup.quaternion, ease);
+            } else if (currentAnim.type === "invert" || currentAnim.type === "reflect") {
+                moleculeGroup.scale.lerpVectors(startScale, targetScale, ease);
+            }
+
+            if (t >= 1.0) {
+                isAnimating = false;
+                currentAnim = null;
+            }
+        }
+
+        // ---------------------------------------------------------------------
+        // 5. Gestor de Carga y UI
+        // ---------------------------------------------------------------------
+        const molSelect = document.getElementById("mol-select");
+        const opSelect = document.getElementById("op-select");
+        const titleEl = document.getElementById("mol-title");
+        const descEl = document.getElementById("mol-desc");
+        const controlsContainer = document.getElementById("controls-container");
+
+        function loadMolecule(type) {
+            // Limpiar grupos
+            while (moleculeGroup.children.length > 0) moleculeGroup.remove(moleculeGroup.children[0]);
+            while (symmetryGroup.children.length > 0) symmetryGroup.remove(symmetryGroup.children[0]);
+            moleculeGroup.quaternion.identity();
+            moleculeGroup.scale.set(1, 1, 1);
+            controlsContainer.innerHTML = "";
+            opSelect.innerHTML = "";
+
+            const config = (type === "c60") ? buildC60() : buildBenzene();
+            titleEl.innerHTML = config.title;
+            descEl.innerHTML = config.desc;
+            currentOperations = config.operations;
+
+            // Llenar selector de operaciones
+            config.operations.forEach((op, idx) => {
+                const opt = document.createElement("option");
+                opt.value = idx;
+                opt.textContent = op.name;
+                opSelect.appendChild(opt);
+            });
+
+            // Checkboxes
+            config.controls.forEach(ctrl => {
+                const label = document.createElement("label");
+                label.className = "checkbox-label";
+                const input = document.createElement("input");
+                input.type = "checkbox";
+                input.checked = ctrl.checked;
+                input.addEventListener("change", (e) => {
+                    if (Array.isArray(ctrl.obj)) ctrl.obj.forEach(o => o.visible = e.target.checked);
+                    else ctrl.obj.visible = e.target.checked;
+                });
+                label.appendChild(input);
+                if (ctrl.color) {
+                    const badge = document.createElement("span");
+                    badge.className = "badge";
+                    badge.style.background = ctrl.color;
+                    label.appendChild(badge);
+                }
+                const span = document.createElement("span");
+                span.innerHTML = ctrl.label;
+                label.appendChild(span);
+                controlsContainer.appendChild(label);
+            });
+
+            const autoLabel = document.createElement("label");
+            autoLabel.className = "checkbox-label";
+            const autoInput = document.createElement("input");
+            autoInput.type = "checkbox";
+            autoInput.checked = controls.autoRotate;
+            autoInput.addEventListener("change", (e) => controls.autoRotate = e.target.checked);
+            autoLabel.appendChild(autoInput);
+            const autoSpan = document.createElement("span");
+            autoSpan.textContent = "Auto-rotación suave";
+            autoLabel.appendChild(autoSpan);
+            controlsContainer.appendChild(autoLabel);
+        }
+
+        document.getElementById("btn-apply-op").addEventListener("click", () => {
+            const opIdx = parseInt(opSelect.value, 10);
+            if (currentOperations[opIdx]) triggerOperation(currentOperations[opIdx]);
+        });
+
+        molSelect.addEventListener("change", (e) => loadMolecule(e.target.value));
+        loadMolecule("c60");
 
         document.getElementById("btn-reset").addEventListener("click", () => {
             camera.position.set(0, 4, 18);
             controls.target.set(0, 0, 0);
             controls.update();
+            moleculeGroup.quaternion.identity();
+            moleculeGroup.scale.set(1, 1, 1);
         });
 
-        // Alternar tema blanco editorial
         const themeBtn = document.getElementById("btn-theme");
         themeBtn.addEventListener("click", () => {
             isWhiteTheme = !isWhiteTheme;
@@ -453,33 +663,28 @@
             }
         });
 
-        // ---------------------------------------------------------------------
-        // 7. Generador de Capturas Ultra-HD (4K / 300 DPI) para el Paper
-        // ---------------------------------------------------------------------
         document.getElementById("btn-snapshot").addEventListener("click", () => {
-            // Guardar configuración actual
             const prevBg = scene.background.clone();
             const prevWidth = window.innerWidth;
             const prevHeight = window.innerHeight;
 
-            // Ajustar para imagen de publicación (Fondo blanco puro, resolución 2400x2400)
             scene.background = new THREE.Color(0xffffff);
             const targetSize = 2400;
             renderer.setSize(targetSize, targetSize, false);
             camera.aspect = 1.0;
             camera.updateProjectionMatrix();
 
-            // Renderizar un fotograma en alta definición
             renderer.render(scene, camera);
 
-            // Descargar automáticamente la imagen PNG
+            const activeMol = molSelect.value;
+            const filename = (activeMol === "c60") ? "fig_c60_symmetry.png" : "fig_benzene_symmetry.png";
+
             const dataURL = renderer.domElement.toDataURL("image/png");
             const link = document.createElement("a");
-            link.download = "fig_c60_symmetry_publication.png";
+            link.download = filename;
             link.href = dataURL;
             link.click();
 
-            // Restaurar configuración original
             scene.background = prevBg;
             renderer.setSize(prevWidth, prevHeight);
             camera.aspect = prevWidth / prevHeight;
@@ -488,10 +693,15 @@
         });
 
         // ---------------------------------------------------------------------
-        // 8. Bucle de Animación y Renderizado
+        // 6. Bucle de Renderizado
         // ---------------------------------------------------------------------
+        let clock = new THREE.Clock();
+        controls.autoRotateSpeed = 1.5;
+
         function animate() {
             requestAnimationFrame(animate);
+            const delta = clock.getDelta();
+            updateAnimation(delta);
             controls.update();
             renderer.render(scene, camera);
         }
@@ -504,4 +714,5 @@
         });
     </script>
 </body>
+
 </html>
