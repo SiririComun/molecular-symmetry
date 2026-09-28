@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simetría Icosaédrica Y_h - Buckminsterfullereno C60</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #0f172a;
+        }
+        #canvas-container {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        /* Panel de Control Flotante */
+        .ui-card {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            padding: 20px;
+            width: 320px;
+            color: #f8fafc;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            z-index: 10;
+        }
+        .ui-card h2 {
+            font-size: 1.1rem;
+            margin-bottom: 6px;
+            color: #38bdf8;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .ui-card p {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-bottom: 16px;
+            line-height: 1.4;
+        }
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            font-size: 0.85rem;
+            cursor: pointer;
+            gap: 10px;
+            user-select: none;
+        }
+        .checkbox-label input {
+            accent-color: #38bdf8;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+        .badge {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+        }
+        /* Botones */
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 8px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #0284c7, #0369a1);
+            color: white;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
+        }
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #0369a1, #075985);
+            transform: translateY(-1px);
+        }
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            color: #e2e8f0;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        /* Footer Badge */
+        .footer-info {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: #64748b;
+            font-size: 0.8rem;
+            background: rgba(15, 23, 42, 0.7);
+            padding: 8px 14px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            pointer-events: none;
+        }
+    </style>
+    <!-- Three.js y OrbitControls desde CDN oficial -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+    <div id="canvas-container"></div>
+
+    <div class="ui-card">
+        <h2>Simetría <i>Y<sub>h</sub></i>: C<sub>60</sub></h2>
+        <p>Inspección interactiva de los 120 operadores de simetría y verificación geométrica de los 4 átomos invariantes sobre el plano &sigma;.</p>
+
+        <div class="control-group">
+            <label class="checkbox-label">
+                <input type="checkbox" id="toggle-atoms" checked>
+                <span>Núcleos C (56 átomos)</span>
+            </label>
+            <label class="checkbox-label">
+                <input type="checkbox" id="toggle-unshifted" checked>
+                <span class="badge" style="background: #f59e0b;"></span>
+                <span><b>Átomos invariantes &sigma; (<i>N<sub>&sigma;</sub>=4</i>)</b></span>
+            </label>
+            <label class="checkbox-label">
+                <input type="checkbox" id="toggle-bonds" checked>
+                <span>Enlaces C-C (90 aristas)</span>
+            </label>
+            <label class="checkbox-label">
+                <input type="checkbox" id="toggle-plane" checked>
+                <span class="badge" style="background: #06b6d4;"></span>
+                <span>Plano &sigma; (<i>x = 0</i>)</span>
+            </label>
+            <label class="checkbox-label">
+                <input type="checkbox" id="toggle-c5" checked>
+                <span class="badge" style="background: #10b981;"></span>
+                <span>Eje <i>C<sub>5</sub></i> (Pentágono)</span>
+            </label>
+            <label class="checkbox-label">
+                <input type="checkbox" id="toggle-c3" checked>
+                <span class="badge" style="background: #3b82f6;"></span>
+                <span>Eje <i>C<sub>3</sub></i> (Hexágono)</span>
+            </label>
+            <label class="checkbox-label">
+                <input type="checkbox" id="toggle-c2" checked>
+                <span class="badge" style="background: #8b5cf6;"></span>
+                <span>Eje <i>C<sub>2</sub></i> (Enlace 6:6)</span>
+            </label>
+            <label class="checkbox-label">
+                <input type="checkbox" id="toggle-autorotate">
+                <span>Auto-rotación suave</span>
+            </label>
+        </div>
+
+        <button class="btn btn-primary" id="btn-snapshot">Descargar Figura 4K (Paper)</button>
+        <button class="btn btn-secondary" id="btn-reset">Restablecer Cámara</button>
+        <button class="btn btn-secondary" id="btn-theme">Alternar Modo Editorial (Blanco)</button>
+    </div>
+
+    <div class="footer-info">
+        Rotar: Clic izquierdo | Desplazar: Clic derecho | Zoom: Rueda del ratón
+    </div>
+
+    <script>
+        // ---------------------------------------------------------------------
+        // 1. Configuración de Escena, Cámara y Renderizador WebGL
+        // ---------------------------------------------------------------------
+        const container = document.getElementById("canvas-container");
+        const scene = new THREE.Scene();
+        let isWhiteTheme = false;
+        scene.background = new THREE.Color(0x0f172a);
+
+        const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 100);
+        camera.position.set(0, 4, 18);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        container.appendChild(renderer.domElement);
+
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+
+        // ---------------------------------------------------------------------
+        // 2. Iluminación de Estudio Fotográfico
+        // ---------------------------------------------------------------------
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+        scene.add(ambientLight);
+
+        const keyLight = new THREE.DirectionalLight(0xffffff, 0.9);
+        keyLight.position.set(15, 20, 15);
+        scene.add(keyLight);
+
+        const fillLight = new THREE.DirectionalLight(0x93c5fd, 0.5);
+        fillLight.position.set(-15, -10, -10);
+        scene.add(fillLight);
+
+        const backLight = new THREE.DirectionalLight(0xffffff, 0.4);
+        backLight.position.set(0, 10, -20);
+        scene.add(backLight);
+
+        // ---------------------------------------------------------------------
+        // 3. Generación Analítica de los 60 Vértices (Razón Áurea tau)
+        // ---------------------------------------------------------------------
+        const tau = (1.0 + Math.sqrt(5.0)) / 2.0;
+        const R_molecular = 4.2;
+
+        function evenPermutations(x, y, z) {
+            return [
+                new THREE.Vector3(x, y, z),
+                new THREE.Vector3(y, z, x),
+                new THREE.Vector3(z, x, y)
+            ];
+        }
+
+        const rawVertices = [];
+        const signs2 = [[1, 1], [1, -1], [-1, 1], [-1, -1]];
+        const signs3 = [];
+        for (let s1 of [-1, 1])
+            for (let s2 of [-1, 1])
+                for (let s3 of [-1, 1])
+                    signs3.push([s1, s2, s3]);
+
+        // Conjunto 1: (0, \pm 1, \pm 3*tau)
+        for (let s of signs2) {
+            for (let p of evenPermutations(0, s[0] * 1.0, s[1] * 3.0 * tau)) {
+                rawVertices.push(p);
+            }
+        }
+        // Conjunto 2: (\pm 2, \pm (1 + 2*tau), \pm tau)
+        for (let s of signs3) {
+            for (let p of evenPermutations(s[0] * 2.0, s[1] * (1.0 + 2.0 * tau), s[2] * tau)) {
+                rawVertices.push(p);
+            }
+        }
+        // Conjunto 3: (\pm 1, \pm (2 + tau), \pm 2*tau)
+        for (let s of signs3) {
+            for (let p of evenPermutations(s[0] * 1.0, s[1] * (2.0 + tau), s[2] * 2.0 * tau)) {
+                rawVertices.push(p);
+            }
+        }
+
+        // Eliminar duplicados geométricos y escalar
+        const vertices = [];
+        for (let v of rawVertices) {
+            let exists = false;
+            for (let u of vertices) {
+                if (v.distanceTo(u) < 1e-4) {
+                    exists = true;
+                    break;
+                }
+            }
+            if (!exists) vertices.push(v);
+        }
+
+        const currentR = vertices[0].length();
+        vertices.forEach(v => v.multiplyScalar(R_molecular / currentR));
+
+        // ---------------------------------------------------------------------
+        // 4. Construcción de Geometría Molecular: Átomos y Enlaces 3D
+        // ---------------------------------------------------------------------
+        const standardAtomGroup = new THREE.Group();
+        const unshiftedAtomGroup = new THREE.Group();
+        const bondGroup = new THREE.Group();
+        scene.add(standardAtomGroup);
+        scene.add(unshiftedAtomGroup);
+        scene.add(bondGroup);
+
+        const sphereGeo = new THREE.SphereGeometry(0.24, 32, 32);
+        const unshiftedSphereGeo = new THREE.SphereGeometry(0.36, 32, 32);
+
+        const carbonMaterial = new THREE.MeshStandardMaterial({
+            color: 0x334155,
+            metalness: 0.4,
+            roughness: 0.3
+        });
+
+        const goldMaterial = new THREE.MeshStandardMaterial({
+            color: 0xf59e0b,
+            emissive: 0x78350f,
+            emissiveIntensity: 0.35,
+            metalness: 0.8,
+            roughness: 0.15
+        });
+
+        // Detectar los 4 átomos sobre x = 0
+        vertices.forEach((v) => {
+            const isUnshifted = Math.abs(v.x) < 1e-3;
+            if (isUnshifted) {
+                const mesh = new THREE.Mesh(unshiftedSphereGeo, goldMaterial);
+                mesh.position.copy(v);
+                unshiftedAtomGroup.add(mesh);
+            } else {
+                const mesh = new THREE.Mesh(sphereGeo, carbonMaterial);
+                mesh.position.copy(v);
+                standardAtomGroup.add(mesh);
+            }
+        });
+
+        // 90 enlaces cilíndricos
+        const bondMaterial = new THREE.MeshStandardMaterial({
+            color: 0x64748b,
+            metalness: 0.2,
+            roughness: 0.5
+        });
+
+        for (let i = 0; i < vertices.length; i++) {
+            for (let j = i + 1; j < vertices.length; j++) {
+                const dist = vertices[i].distanceTo(vertices[j]);
+                if (dist > 1.4 && dist < 2.0) {
+                    const dir = new THREE.Vector3().subVectors(vertices[j], vertices[i]);
+                    const len = dir.length();
+                    const bondGeo = new THREE.CylinderGeometry(0.065, 0.065, len, 16);
+                    const bondMesh = new THREE.Mesh(bondGeo, bondMaterial);
+
+                    const mid = new THREE.Vector3().addVectors(vertices[i], vertices[j]).multiplyScalar(0.5);
+                    bondMesh.position.copy(mid);
+
+                    const axis = new THREE.Vector3(0, 1, 0);
+                    bondMesh.quaternion.setFromUnitVectors(axis, dir.normalize());
+                    bondGroup.add(bondMesh);
+                }
+            }
+        }
+
+        // ---------------------------------------------------------------------
+        // 5. Elementos de Simetría (Ejes C5, C3, C2 y Plano Sigma)
+        // ---------------------------------------------------------------------
+        const symmetryGroup = new THREE.Group();
+        scene.add(symmetryGroup);
+
+        function createAxis(direction, length, color) {
+            const group = new THREE.Group();
+            const dir = direction.clone().normalize();
+            const cylinderGeo = new THREE.CylinderGeometry(0.04, 0.04, length * 2, 16);
+            const mat = new THREE.MeshBasicMaterial({ color: color });
+            const cylinder = new THREE.Mesh(cylinderGeo, mat);
+
+            const axis = new THREE.Vector3(0, 1, 0);
+            cylinder.quaternion.setFromUnitVectors(axis, dir);
+            group.add(cylinder);
+
+            // Puntas de flecha
+            const coneGeo = new THREE.ConeGeometry(0.18, 0.5, 16);
+            const cone1 = new THREE.Mesh(coneGeo, mat);
+            cone1.position.copy(dir.clone().multiplyScalar(length));
+            cone1.quaternion.setFromUnitVectors(axis, dir);
+            group.add(cone1);
+
+            const cone2 = new THREE.Mesh(coneGeo, mat);
+            cone2.position.copy(dir.clone().multiplyScalar(-length));
+            cone2.quaternion.setFromUnitVectors(axis, dir.clone().negate());
+            group.add(cone2);
+
+            return group;
+        }
+
+        // Eje C5 (pentagonal)
+        const axisC5 = createAxis(new THREE.Vector3(0, 1, tau), R_molecular * 1.5, 0x10b981);
+        symmetryGroup.add(axisC5);
+
+        // Eje C3 (hexagonal)
+        const axisC3 = createAxis(new THREE.Vector3(1, 1, 1), R_molecular * 1.45, 0x3b82f6);
+        symmetryGroup.add(axisC3);
+
+        // Eje C2 (binario)
+        const axisC2 = createAxis(new THREE.Vector3(0, 0, 1), R_molecular * 1.45, 0x8b5cf6);
+        symmetryGroup.add(axisC2);
+
+        // Plano sigma (x = 0)
+        const planeGeo = new THREE.RingGeometry(0, R_molecular * 1.25, 64);
+        const planeMat = new THREE.MeshStandardMaterial({
+            color: 0x06b6d4,
+            transparent: true,
+            opacity: 0.28,
+            side: THREE.DoubleSide,
+            roughness: 0.2
+        });
+        const planeMesh = new THREE.Mesh(planeGeo, planeMat);
+        planeMesh.rotation.y = Math.PI / 2; // Normal a lo largo del eje x
+        symmetryGroup.add(planeMesh);
+
+        // Anillo de borde para el plano sigma
+        const edgeGeo = new THREE.RingGeometry(R_molecular * 1.23, R_molecular * 1.25, 64);
+        const edgeMat = new THREE.MeshBasicMaterial({ color: 0x0284c7, side: THREE.DoubleSide });
+        const edgeMesh = new THREE.Mesh(edgeGeo, edgeMat);
+        edgeMesh.rotation.y = Math.PI / 2;
+        symmetryGroup.add(edgeMesh);
+
+        // ---------------------------------------------------------------------
+        // 6. Interfaz y Controladores de Eventos
+        // ---------------------------------------------------------------------
+        document.getElementById("toggle-atoms").addEventListener("change", (e) => standardAtomGroup.visible = e.target.checked);
+        document.getElementById("toggle-unshifted").addEventListener("change", (e) => unshiftedAtomGroup.visible = e.target.checked);
+        document.getElementById("toggle-bonds").addEventListener("change", (e) => bondGroup.visible = e.target.checked);
+        document.getElementById("toggle-plane").addEventListener("change", (e) => {
+            planeMesh.visible = e.target.checked;
+            edgeMesh.visible = e.target.checked;
+        });
+        document.getElementById("toggle-c5").addEventListener("change", (e) => axisC5.visible = e.target.checked);
+        document.getElementById("toggle-c3").addEventListener("change", (e) => axisC3.visible = e.target.checked);
+        document.getElementById("toggle-c2").addEventListener("change", (e) => axisC2.visible = e.target.checked);
+
+        const autoRotateCheckbox = document.getElementById("toggle-autorotate");
+        autoRotateCheckbox.addEventListener("change", (e) => controls.autoRotate = e.target.checked);
+        controls.autoRotateSpeed = 1.5;
+
+        document.getElementById("btn-reset").addEventListener("click", () => {
+            camera.position.set(0, 4, 18);
+            controls.target.set(0, 0, 0);
+            controls.update();
+        });
+
+        // Alternar tema blanco editorial
+        const themeBtn = document.getElementById("btn-theme");
+        themeBtn.addEventListener("click", () => {
+            isWhiteTheme = !isWhiteTheme;
+            if (isWhiteTheme) {
+                scene.background = new THREE.Color(0xffffff);
+                carbonMaterial.color.setHex(0x1e293b);
+                bondMaterial.color.setHex(0x334155);
+                themeBtn.textContent = "Alternar Modo Oscuro";
+            } else {
+                scene.background = new THREE.Color(0x0f172a);
+                carbonMaterial.color.setHex(0x334155);
+                bondMaterial.color.setHex(0x64748b);
+                themeBtn.textContent = "Alternar Modo Editorial (Blanco)";
+            }
+        });
+
+        // ---------------------------------------------------------------------
+        // 7. Generador de Capturas Ultra-HD (4K / 300 DPI) para el Paper
+        // ---------------------------------------------------------------------
+        document.getElementById("btn-snapshot").addEventListener("click", () => {
+            // Guardar configuración actual
+            const prevBg = scene.background.clone();
+            const prevWidth = window.innerWidth;
+            const prevHeight = window.innerHeight;
+
+            // Ajustar para imagen de publicación (Fondo blanco puro, resolución 2400x2400)
+            scene.background = new THREE.Color(0xffffff);
+            const targetSize = 2400;
+            renderer.setSize(targetSize, targetSize, false);
+            camera.aspect = 1.0;
+            camera.updateProjectionMatrix();
+
+            // Renderizar un fotograma en alta definición
+            renderer.render(scene, camera);
+
+            // Descargar automáticamente la imagen PNG
+            const dataURL = renderer.domElement.toDataURL("image/png");
+            const link = document.createElement("a");
+            link.download = "fig_c60_symmetry_publication.png";
+            link.href = dataURL;
+            link.click();
+
+            // Restaurar configuración original
+            scene.background = prevBg;
+            renderer.setSize(prevWidth, prevHeight);
+            camera.aspect = prevWidth / prevHeight;
+            camera.updateProjectionMatrix();
+            renderer.render(scene, camera);
+        });
+
+        // ---------------------------------------------------------------------
+        // 8. Bucle de Animación y Renderizado
+        // ---------------------------------------------------------------------
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener("resize", () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
