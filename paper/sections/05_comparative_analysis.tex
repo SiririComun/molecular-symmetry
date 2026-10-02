@@ -1,12 +1,55 @@
-\section{Comparative Selection Rules and Symmetry Breaking}
+\section{Análisis Comparativo, Descenso de Simetría y Efecto Jahn--Teller}
 \label{sec:comparison}
 
-\subsection{Rule of Mutual Exclusion}
-Both $D_{6h}$ and $Y_h$ are centrosymmetric ($i \in G$). The electric dipole transition operator $\hat{\bm{\mu}} = e\mathbf{r}$ transforms as an odd function under inversion ($u$), while the polarizability tensor $\bm{\alpha}$ transforms as an even function ($g$). Consequently:
+\subsection{Regla de exclusión mutua comparada}
+Tanto el grupo diedro $D_{6h}$ como el icosaédrico $Y_h$ son grupos centrosimétricos estructurados como productos directos con el centro de inversión: $D_{6h} \cong D_6 \times C_i$ y $Y_h \cong Y \times C_i$~\cite{Ramadevi2019}. Bajo la operación $i = -\mathbf{I}_3$, los operadores de transición óptica se desacoplan estrictamente por paridad:
 \begin{equation}
-\Gamma(\hat{\bm{\mu}}) \subset \bigoplus \text{Irrep}_u, \quad \Gamma(\bm{\alpha}) \subset \bigoplus \text{Irrep}_g.
+\hat{\bm{\mu}} \subset \bigoplus \text{Irrep}_u \quad (\text{IR}), \qquad \bm{\alpha} \subset \bigoplus \text{Irrep}_g \quad (\text{Raman}).
 \end{equation}
-For $Y_h$, $\Gamma_{\text{dipole}} = T_{1u}$ and $\Gamma_{\text{pol}} = A_g \oplus H_g$. Thus, no single vibrational mode in $\text{C}_{60}$ can be simultaneously IR- and Raman-active. Out of 174 normal modes, only the 4 four-fold degenerate $T_{1u}$ modes appear in first-order IR spectra, while only the $2A_g$ and $8H_g$ modes appear in Raman scattering.
+Puesto que el estado base vibracional $|0\rangle$ es invariante ($A_{1g}$ en $D_{6h}$ y $A_g$ en $Y_h$), las integrales dipolares exigen paridad $u$, mientras que la dispersión Raman exige paridad $g$. Se deduce así la \emph{regla de exclusión mutua}: $\Gamma_{\text{IR}} \cap \Gamma_{\text{Raman}} = \emptyset$. Ningún modo fundamental en moléculas centrosimétricas puede ser activo simultáneamente en IR y Raman.
 
-\subsection{Symmetry Descent and Jahn--Teller Instability}
-Degradation of icosahedral symmetry to subgroups ($Y_h \to D_{5d} \to C_{5v}$) lifts the degeneracy of the 4D ($G$) and 5D ($H$) vibrational and electronic levels. In ionic fullerenes ($\text{C}_{60}^-$), the degenerate ground state undergoes spontaneous geometric distortion via the $H_g$ vibrational coupling modes.
+\begin{table}[b]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{0.9}
+\caption{\label{tab:comparacion_sistemas}Comparativa estructural y espectroscópica entre el benceno ($D_{6h}$) y el buckminsterfullereno ($Y_h$).}
+\begin{ruledtabular}
+\begin{tabular}{lcc}
+Propiedad física & Benceno ($\text{C}_6\text{H}_6$) & Fullereno ($\text{C}_{60}$) \\
+\hline
+Grupo puntual & $D_{6h} \cong D_6 \times C_i$ & $Y_h \cong Y \times C_i$ \\
+Orden del grupo $|G|$ & 24 & 120 \\
+Clases de conjugación & 12 & 10 \\
+Núcleos ($N$) & 12 & 60 \\
+Grados de libertad ($3N$) & 36 & 180 \\
+Modos normales ($3N-6$) & 30 & 174 \\
+Frecuencias distintas & 20 & 46 \\
+Modos IR-activos & 7 (4 bandas) & 12 (4 bandas) \\
+Modos Raman-activos & 11 (7 líneas) & 42 (10 líneas) \\
+Modos silentes (\%) & 12 ($40.0\%$) & 120 ($69.0\%$) \\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+La Tabla~\ref{tab:comparacion_sistemas} evidencia el efecto restrictivo del orden del grupo: a pesar de que el $\text{C}_{60}$ posee casi seis veces más modos normales que el benceno (174 frente a 30), el espectro IR exhibe exactamente el mismo número de bandas fundamentales permitidas (cuatro), confinando el $69\%$ de los modos al régimen silente.
+
+\subsection{Descenso de simetría y escisión de niveles}
+La imposición de perturbaciones externas uniaxiales o la interacción de la molécula con matrices sólidas y sustratos metálicos reduce la simetría $G$ a un subgrupo $K \subset G$~\cite{Kuzmany1994, Qin2025}. Conforme a las tablas de correlación~\cite{Dresselhaus2008, Wilson1955}, bajo una elongación a lo largo de un eje pentagonal del $\text{C}_{60}$, la simetría desciende según $Y_h \to D_{5d}$:
+\begin{equation}
+T_{1u} \to A_{2u} \oplus E_{1u}, \quad H_g \to A_{1g} \oplus E_{1g} \oplus E_{2g}, \quad G_g \to E_{1g} \oplus E_{2g}.
+\end{equation}
+Cada triplete $T_{1u}$ se desdobla en una oscilación paralela ($A_{2u}$) y un doblete transversal ($E_{1u}$), mientras que los quintupletes $H_g$ se escinden en tres líneas diferenciadas. Si la deformación destruye el centro de inversión ($D_{5d} \to C_{5v}$), las especies $u$ y $g$ se fusionan en representaciones isomórficas ($A_{2u}, A_{1g} \to A_1$; $E_{1u}, E_{1g} \to E_1$), anulando la regla de exclusión mutua y activando simultáneamente modos previamente silentes en espectroscopías SERS y TERS~\cite{Qin2025}.
+
+\subsection{Inestabilidad dinámica de Jahn--Teller en $\text{C}_{60}^-$}
+El teorema de Jahn--Teller~\cite{JahnTeller1937} establece que un sistema poliatómico no lineal en un estado electrónico degenerado experimenta una distorsión espontánea que rompe la simetría para minimizar la energía libre.
+
+En el $\text{C}_{60}$ neutro, el orbital HOMO es un nivel décuple $h_u$ saturado (capa cerrada $^1A_g$ no degenerada). En el anión $\text{C}_{60}^-$, el electrón extra entra al nivel LUMO triplemente degenerado $t_{1u}$ (estado fundamental $^2T_{1u}$). El acoplamiento vibrónico lineal está mediado por el producto tensorial simétrico~\cite{JahnTeller1937, Ramadevi2019}:
+\begin{equation}
+(T_{1u} \otimes T_{1u})_s = A_g \oplus H_g.
+\end{equation}
+Dado que el modo totalmente simétrico $A_g$ preserva la jaula esférica sin romper la degeneración, \textbf{los 8 modos normales cuadrupolares $H_g$} son los únicos que se acoplan linealmente al estado electrónico:
+\begin{equation}
+\langle t_{1u} | \left( \frac{\partial \hat{H}}{\partial Q_{H_g}} \right) | t_{1u} \rangle \neq 0.
+\end{equation}
+Este acoplamiento electrón-fonón $T_{1u} \otimes H_g$ no solo rige la distorsión de Jahn--Teller en el radical $\text{C}_{60}^-$, sino que constituye el mecanismo fundamental del ensanchamiento anómalo de líneas Raman y del emparejamiento de Cooper en superconductores fulleridos alcalinos $A_3\text{C}_{60}$ ($A = \text{K, Rb, Cs}$)~\cite{Kuzmany1994}.

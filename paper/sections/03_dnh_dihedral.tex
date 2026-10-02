@@ -1,9 +1,106 @@
-\section{Resolution of the $D_{nh}$ Group: Benzene ($\text{C}_6\text{H}_6$)}
+\section{Resolución del Grupo $D_{nh}$: Benceno ($\text{C}_6\text{H}_6$)}
 \label{sec:dnh}
 
-The dihedral group $D_{6h}$ of planar benzene contains 24 symmetry elements arranged in 12 conjugacy classes:
+% Definición de macros al inicio para evitar errores de secuencia indefinida
+\providecommand{\M}[9]{\begin{pmatrix}#1&#2&#3\\#4&#5&#6\\#7&#8&#9\end{pmatrix}}
+\providecommand{\hf}{\tfrac{1}{2}}
+\providecommand{\sq}{\tfrac{\sqrt{3}}{2}}
+
+El grupo diedro centrosimétrico $D_{nh}$ se define formalmente como el producto directo del grupo diedro puro $D_n$ (rotaciones propias de orden $2n$) con el grupo de reflexión horizontal $C_s \cong \{E, \sigma_h\}$:
 \begin{equation}
-D_{6h} \cong D_6 \times C_i = D_6 \times \{E, i\}.
+    D_{nh} = D_n \otimes \{E, \sigma_h\}.
+\end{equation}
+Cuando el orden principal $n$ es par, la existencia de rotaciones binarias transversales $C_2 \perp C_n$ permite expresar la inversión central como $i = S_2 = C_2 \sigma_h$. En consecuencia, el grupo es isomorfo al producto directo con el grupo cíclico de inversión espacial $C_i = \{E, i\}$~\cite{Ramadevi2019}:
+\begin{equation}
+    D_{nh} \cong D_n \otimes C_i, \qquad C_i = \{E, i\}.
+\end{equation}
+El orden total del grupo es $|D_{nh}| = 4n$ (para $D_{6h}$, $|G|=24$). La geometría del benceno ($\text{C}_6\text{H}_6$) guarda una relación topológica directa con el buckminsterfullereno $\text{C}_{60}$: cada una de las 20 caras hexagonales del fullereno posee simetría local $D_{6h}$. De este modo, resolver sistemáticamente las clases de conjugación, matrices canónicas y el espectro normal del benceno sienta las bases analíticas antes de abordar la complejidad tridimensional de $Y_h$ ($|G|=120$).
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.62\columnwidth]{Images/fig_benzene_symmetry.png}
+\caption{Elementos de simetría del benceno ($\text{C}_6\text{H}_6$) bajo el grupo puntual $D_{6h}$. Se ilustran el eje principal senario $C_6$ perpendicular al plano molecular (verde), los 3 ejes $C_2'$ que pasan por los núcleos C--H (púrpura), los 3 ejes $C_2''$ que bisecan los enlaces carbono-carbono (magenta) y el plano horizontal molecular $\sigma_h$ (lámina translúcida azul).}
+\label{fig:benzene_symmetry}
+\end{figure}
+
+\subsection{Clases de conjugación y tabla de caracteres}
+Las 24 operaciones de simetría del grupo $D_{6h}$ se particionan en 12 clases de conjugación fundamentales: la identidad $\{E\}$, dos rotaciones senarias $2C_6$, dos rotaciones ternarias $2C_3$, una rotación binaria axial $C_2$, tres ejes binarios nodales $3C_2'$ (a lo largo de enlaces C--H), tres ejes binarios bisectores $3C_2''$, la inversión central $\{i\}$, dos roto-reflexiones $2S_3$, dos roto-reflexiones $2S_6$, la reflexión horizontal $\sigma_h$, tres planos verticales $3\sigma_v$ y tres planos diedros $3\sigma_d$.
+
+La Tabla~\ref{tab:d6h} condensa las propiedades algebraicas del grupo en sus 12 representaciones irreducibles: las especies unidimensionales $A$ y $B$ ($d=1$), y las especies bidimensionales $E$ ($d=2$), divididas según su paridad en estados pares (\emph{gerade}, $g$) e impares (\emph{ungerade}, $u$) bajo la inversión central $i$.
+
+% INCLUSIÓN DE LA TABLA DE CARACTERES DE D6h (Define \label{tab:d6h})
+\input{tables/tab_dnh_characters}
+
+\vspace{6pt}
+\subsection{Representación matricial y álgebra de producto}
+\vspace{2pt}
+
+Fijando el eje $C_6$ en la dirección $\hat{z}$ y un eje $C_2'$ a lo largo de $\hat{x}$, las 24 operaciones de $D_{6h}$ se proyectan sobre la base canónica $\{x,y,z\}$. Con las constantes abreviadas $\frac{1}{2}$ y $\frac{\sqrt{3}}{2}$, las matrices ortogonales $3 \times 3$ se estructuran a continuación:
+
+\begingroup
+\scriptsize
+\setlength{\arraycolsep}{1.5pt}
+\noindent\textbf{Operaciones propias (rotaciones):}
+\begin{align*}
+E &= \M{1}{0}{0}{0}{1}{0}{0}{0}{1}, &
+C_6 &= \M{\hf}{-\sq}{0}{\sq}{\hf}{0}{0}{0}{1}, \\[2pt]
+C_6^{5} &= \M{\hf}{\sq}{0}{-\sq}{\hf}{0}{0}{0}{1}, &
+C_3 &= \M{-\hf}{-\sq}{0}{\sq}{-\hf}{0}{0}{0}{1}, \\[2pt]
+C_3^{2} &= \M{-\hf}{\sq}{0}{-\sq}{-\hf}{0}{0}{0}{1}, &
+C_2 &= \M{-1}{0}{0}{0}{-1}{0}{0}{0}{1}, \\[2pt]
+C_2'(0^\circ) &= \M{1}{0}{0}{0}{-1}{0}{0}{0}{-1}, &
+C_2'(60^\circ) &= \M{-\hf}{\sq}{0}{\sq}{\hf}{0}{0}{0}{-1}, \\[2pt]
+C_2'(120^\circ) &= \M{-\hf}{-\sq}{0}{-\sq}{\hf}{0}{0}{0}{-1}, &
+C_2''(30^\circ) &= \M{\hf}{\sq}{0}{\sq}{-\hf}{0}{0}{0}{-1}, \\[2pt]
+C_2''(90^\circ) &= \M{-1}{0}{0}{0}{1}{0}{0}{0}{-1}, &
+C_2''(150^\circ) &= \M{\hf}{-\sq}{0}{-\sq}{-\hf}{0}{0}{0}{-1}.
+\end{align*}
+
+\noindent\textbf{Operaciones impropias ($i$, $\sigma$, $S_n$):}
+\begin{align*}
+i &= \M{-1}{0}{0}{0}{-1}{0}{0}{0}{-1}, &
+\sigma_h &= \M{1}{0}{0}{0}{1}{0}{0}{0}{-1}, \\[2pt]
+S_6 &= \M{\hf}{-\sq}{0}{\sq}{\hf}{0}{0}{0}{-1}, &
+S_6^{5} &= \M{\hf}{\sq}{0}{-\sq}{\hf}{0}{0}{0}{-1}, \\[2pt]
+S_3 &= \M{-\hf}{-\sq}{0}{\sq}{-\hf}{0}{0}{0}{-1}, &
+S_3^{5} &= \M{-\hf}{\sq}{0}{-\sq}{-\hf}{0}{0}{0}{-1}, \\[2pt]
+\sigma_v(0^\circ) &= \M{1}{0}{0}{0}{-1}{0}{0}{0}{1}, &
+\sigma_v(60^\circ) &= \M{-\hf}{\sq}{0}{\sq}{\hf}{0}{0}{0}{1}, \\[2pt]
+\sigma_v(120^\circ) &= \M{-\hf}{-\sq}{0}{-\sq}{\hf}{0}{0}{0}{1}, &
+\sigma_d(30^\circ) &= \M{\hf}{\sq}{0}{\sq}{-\hf}{0}{0}{0}{1}, \\[2pt]
+\sigma_d(90^\circ) &= \M{-1}{0}{0}{0}{1}{0}{0}{0}{1}, &
+\sigma_d(150^\circ) &= \M{\hf}{-\sq}{0}{-\sq}{-\hf}{0}{0}{0}{1}.
+\end{align*}
+\endgroup
+
+El subgrupo propio $D_6$ satisface la relación diédrica fundamental $\langle R, C \mid R^6 = E, C^2 = E, CRC^{-1} = R^{-1} \rangle$, con $R \equiv C_6$ y $C \equiv C_2'$. Las reglas de composición interna son: $R^a \cdot R^b = R^{(a+b)\bmod 6}$, $R^a \cdot (R^b C) = R^{(a+b)\bmod 6} C$, $(R^a C) \cdot R^b = R^{(a-b)\bmod 6} C$, y $(R^a C) \cdot (R^b C) = R^{(a-b)\bmod 6}$. Como la inversión $i$ conmuta con todos los elementos de $D_6$ ($i \in Z(D_{6h})$) y satisface $i^2 = E$, la tabla de multiplicación de $24 \times 24$ se desacopla en cuatro bloques canónicos de $12 \times 12$ que preservan estrictamente las paridades $g \cdot g = g$, $g \cdot u = u$, $u \cdot u = g$.
+
+\subsection{Átomos invariantes y representación vibracional del Benceno}
+El benceno posee $N = 12$ núcleos (6 de carbono y 6 de hidrógeno) en un espacio de desplazamientos $V_{3N}$ de dimensión 36. Aplicando las Ecs.~(\ref{eq:unshifted_C})--(\ref{eq:unshifted_S}), únicamente aportan a la traza las operaciones que intersecan centros atómicos:
+$N_E = 12$; $N_{C_6} = N_{C_3} = N_{C_2} = N_{C_2''} = 0$; $N_{C_2'} = 4$ (cada eje diametral contiene 2 carbonos y 2 hidrógenos opuestos); $N_{\sigma_h} = 12$ (plano molecular); $N_{\sigma_v} = 4$ (planos verticales sobre ejes $C_2'$); y $N_i = N_{S_6} = N_{S_3} = N_{\sigma_d} = 0$.
+
+El vector de átomos no desplazados es $\mathbf{N}_R = (12, 0, 0, 0, 4, 0, 0, 0, 0, 12, 0, 4)$, con carácter mecánico $\chi^{3N} = (36, 0, 0, 0, -4, 0, 0, 0, 0, 12, 0, 4)$. Sustrayendo traslaciones $\Gamma_{\text{trans}} = A_{2u} \oplus E_{1u}$ y rotaciones $\Gamma_{\text{rot}} = A_{2g} \oplus E_{1g}$, la representación vibracional pura $\Gamma_V$ ($3N - 6 = 30$ modos) arroja los caracteres:
+\begin{equation}
+\chi^V = (30, -2, 2, 2, -2, 0, 0, 2, -2, 12, 0, 4).
 \end{equation}
 
-\input{tables/tab_dnh_characters}
+\subsection{Espectro normal y reglas de selección en $D_{6h}$}
+Aplicando el teorema de multiplicidad [Ec.~(\ref{eq:multiplicity})] con $|G| = 24$, los 30 modos normales se descomponen unívocamente en:
+\begin{align}
+\Gamma_V &= 2A_{1g} \oplus 1A_{2g} \oplus 1A_{2u} \oplus 2B_{1u} \oplus 2B_{2g} \nonumber \\
+         &\quad \oplus 2B_{2u} \oplus 1E_{1g} \oplus 3E_{1u} \oplus 4E_{2g} \oplus 2E_{2u}.
+\label{eq:benceno_descomposicion}
+\end{align}
+La dimensionalidad $\sum m_\alpha \ell_\alpha = 30$ confirma la partición completa del espacio vibracional. Conforme al análisis de Wilson \emph{et al.}~\cite{Wilson1955}, el carácter bajo $\sigma_h$ desacopla rigurosamente los 21 modos en el plano ($\sigma_h = +1$) de los 9 modos fuera del plano ($\sigma_h = -1$).
+
+\textit{Actividad Infrarroja (IR):} Dado que $\hat{\bm{\mu}} \sim A_{2u}(z) \oplus E_{1u}(x, y)$, únicamente son activas en IR las 4 frecuencias fundamentales:
+\begin{equation}
+\Gamma_{\text{IR}} = 1A_{2u} \oplus 3E_{1u} \quad (7 \text{ modos normales}).
+\end{equation}
+
+\textit{Actividad Raman:} El tensor de polarizabilidad transforma bajo $\bm{\alpha} \sim A_{1g} \oplus E_{1g} \oplus E_{2g}$. Por ende, solo son activas en Raman las 7 frecuencias:
+\begin{equation}
+\Gamma_{\text{Raman}} = 2A_{1g} \oplus 1E_{1g} \oplus 4E_{2g} \quad (11 \text{ modos normales}).
+\end{equation}
+
+\textit{Modos Silentes:} Los 12 modos restantes ($1A_{2g} \oplus 2B_{1u} \oplus 2B_{2g} \oplus 2B_{2u} \oplus 2E_{2u}$) son ópticamente inactivos en primer orden.

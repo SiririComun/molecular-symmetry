@@ -7,6 +7,7 @@
 \usepackage{array}
 \usepackage{xcolor}
 \usepackage{hyperref}
+\usepackage{float}
 
 \hypersetup{colorlinks=true, linkcolor=blue!70!black, citecolor=blue!70!black, urlcolor=blue!80!black}
 
@@ -14,22 +15,41 @@
 \newcommand{\irrep}[1]{\mathbf{#1}}
 \newcommand{\inv}[1]{#1^{-1}}
 
+% ------------------------------------------------------------------------------
+% Calibración tipográfica para límite de 7 páginas (Estándar APS/PRL)
+% ------------------------------------------------------------------------------
+\setlength{\abovecaptionskip}{3pt}
+\setlength{\belowcaptionskip}{1pt}
+\setlength{\textfloatsep}{5pt plus 1pt minus 1pt}
+\setlength{\dbltextfloatsep}{5pt plus 1pt minus 1pt}
+\setlength{\intextsep}{4pt plus 1pt minus 1pt}
+\setlength{\abovedisplayskip}{2.5pt plus 1pt minus 1pt}
+\setlength{\belowdisplayskip}{2.5pt plus 1pt minus 1pt}
+
+% EVITAR QUE LOS TÍTULOS SE ESTIREN ARTIFICIALMENTE:
+\raggedbottom
+
+% Compactar el interlineado de la bibliografía
+\AtBeginDocument{%
+  \setlength{\bibsep}{1.2pt plus 0.3pt minus 0.2pt}%
+}
+
 \begin{document}
 
-\title{Group-Theoretic Resolution of Molecular Symmetries and Selection Rules:\\From Planar Dihedral $D_{6h}$ to Icosahedral $Y_h$ Fullerenes}
+\title{Simetrías Moleculares y Reglas de Selección: desde los fullerenos planos diedros $D_{6h}$ hasta los icosaédricos $Y_h$ en teoría de grupos}
 
-\author{Your Name}
-\email{your_email@institution.edu}
-\affiliation{Department of Physics, Your University, City, Country}
+\author{Pablo Sanchez}
+\email{pablo.sanchez2@udea.edu.co}
+\affiliation{Instituto de Física, Universidad de Antioquia}
 
-\author{Teammate Name}
-\email{teammate_email@institution.edu}
-\affiliation{Department of Physics, Your University, City, Country}
+\author{Sofía Moscoso Ortiz}
+\email{sofia.moscoso@udea.edu.co}
+\affiliation{Instituto de Física, Universidad de Antioquia}
 
 \date{\today}
 
 \begin{abstract}
-We present a self-contained group-theoretic investigation resolving the mechanical degrees of freedom, vibrational representations, and optical selection rules of high-symmetry molecular systems. Treating the dihedral group $D_{6h}$ (exemplified by benzene, $\text{C}_6\text{H}_6$) and the full icosahedral point group $Y_h$ (represented by buckminsterfullerene, $\text{C}_{60}$), we construct the respective character tables from first principles and reduce the total mechanical representations ($\Gamma_{3N}$) via the projection operator formalism. We demonstrate how the $3N-6=174$ vibrational modes of $\text{C}_{60}$ collapse into only 4 infrared-active ($T_{1u}$) and 10 Raman-active ($A_g + H_g$) fundamentals under the mutual exclusion rule for centrosymmetric groups. Furthermore, the splitting of degenerate representations under progressive symmetry descent and its implications for dynamic Jahn--Teller instabilities are derived.
+Se presenta un estudio basado en la teoría de grupos para determinar los grados de libertad mecánicos, las representaciones vibracionales y las reglas de selección óptica en sistemas moleculares de alta simetría. Considerando el grupo diedro $D_{6h}$ (representando la molécula planar de benceno, $\text{C}_6\text{H}_6$) y el grupo puntual icosaédrico $Y_h$ (representando la arquitectura de icosaedro truncado del buckminsterfullereno, $\text{C}_{60}$), construimos las tablas de caracteres respectivas a partir de primeros principios y reducimos las representaciones mecánicas totales ($\Gamma_{3N}$) mediante el formalismo de operadores de proyección. Demostramos cómo los $3N-6=174$ modos vibracionales del $\text{C}_{60}$ se reducen a solo 4 modos fundamentales activos en el infrarrojo ($T_{1u}$) y 10 activos en Raman ($A_g + H_g$) en virtud de la regla de exclusión mutua para grupos centrosimétricos. Asimismo, se deriva la escisión de representaciones degeneradas ante un descenso progresivo de la simetría y sus implicaciones para las inestabilidades dinámicas de Jahn--Teller.
 \end{abstract}
 
 \maketitle
@@ -41,8 +61,8 @@ We present a self-contained group-theoretic investigation resolving the mechanic
 \input{sections/05_comparative_analysis}
 \input{sections/06_conclusion}
 
-\section*{Data and Software Availability}
-The interactive 3D WebGL engine demonstrating all 120 symmetry operations, invariant axes, and normal modes of the $Y_h$ manifold is publicly hosted at \url{https://siriricomun.github.io/molecular-symmetry/}. Full source code, numerical projection routines, and vector graphical assets are archived in the project repository \cite{RepositorySource}.
+\section*{Disponibilidad de datos y software}
+El motor interactivo tridimensional en WebGL que modela la geometría del icosaedro truncado, ilustra la acción espacial de las 120 operaciones de simetría del grupo $Y_h$ y reproduce numéricamente los desplazamientos de los modos normales principales (complementando métodos numéricos en dinámica molecular~\cite{Heredia2004}) se encuentra alojado públicamente en \url{https://siriricomun.github.io/molecular-symmetry/}. La totalidad del código fuente, los scripts numéricos de reducción y los archivos fuente de este artículo están archivados y disponibles en el repositorio de la investigación~\cite{RepositorySource}.
 
 \bibliography{references}
 

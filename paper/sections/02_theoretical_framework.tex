@@ -1,23 +1,46 @@
-\section{Theoretical Framework}
+\section{Marco Teórico}
 \label{sec:theory}
-Consider a molecule containing $N$ nuclei. The nuclear excursions from equilibrium constitute a $3N$-dimensional configuration space $V$. A symmetry transformation $g \in G$ maps this configuration onto itself, generating a reducible representation $\Gamma_{3N}$.
+Considérese una molécula poliatómica compuesta por $N$ núcleos atómicos en su configuración geométrica de equilibrio. Las pequeñas excursiones nucleares respecto a dicho equilibrio definen un espacio de configuración mecánica $V_{3N}$ de dimensión $3N$. Toda transformación de simetría espacial $g \in G$ perteneciente al grupo puntual de la molécula actúa linealmente sobre este espacio mediante matrices ortogonales de orden $3N \times 3N$, generando la representación mecánica reducible $\Gamma_{3N}$~\cite{Ramadevi2019}.
 
-Following the unshifted-atom theorems~\cite{Ramadevi2019}, the characters of the representation for proper rotations $C_\theta$ and improper rotations/roto-reflections $S_\theta$ are:
+\subsection{Teorema de átomos no desplazados}
+Conforme a la formulación estándar de Wilson, Decius y Cross~\cite{Wilson1955}, Landau y Lifshitz~\cite{LandauMechanics} y Ramadevi y Dubey~\cite{Ramadevi2019}, las matrices asociadas a cada operación $g$ exhiben bloques nulos fuera de la diagonal siempre que un núcleo es trasladado a una posición atómica distinta. En consecuencia, el carácter (traza) de la representación total $\chi^{3N}(g)$ proviene de la suma de contribuciones de aquellos átomos que permanecen invariantes bajo la operación:
 \begin{align}
 \chi^{3N}(C_\theta) &= N_C (1 + 2\cos\theta), \label{eq:unshifted_C} \\
 \chi^{3N}(S_\theta) &= N_S (-1 + 2\cos\theta), \label{eq:unshifted_S}
 \end{align}
-where $N_C$ and $N_S$ represent the number of atomic nuclei unshifted under the respective operation. Pure reflection $\sigma$ is evaluated as $S_0$ ($N_\sigma$), while spatial inversion $i$ corresponds to $S_\pi$ (yielding $-3N_i$).
+donde $N_C$ y $N_S$ denotan el número de centros atómicos que yacen sobre el eje de rotación propia $C_\theta$ o impropia $S_\theta$, respectivamente. Las operaciones de reflexión planar $\sigma$ corresponden al caso límite $S_0$ con $\theta = 0$, obteniéndose $\chi^{3N}(\sigma) = N_\sigma$; la inversión espacial central $i$ equivale a $S_\pi$ con $\theta = \pi$, arrojando $\chi^{3N}(i) = -3N_i$.
 
-The purely vibrational representation $\Gamma_V$ is obtained by subtracting the representations corresponding to translational ($\Gamma_{\text{trans}}$) and rotational ($\Gamma_{\text{rot}}$) motion of the molecule as a rigid body:
+\subsection{Aislamiento de la representación vibracional}
+El conjunto de $3N$ grados de libertad engloba los desplazamientos del centro de masa de la molécula como un todo y las rotaciones rígidas del esqueleto atómico alrededor del mismo. Para una molécula tridimensional no lineal, las traslaciones rígidas transforman conforme a un vector polar cartesiano $\mathbf{r} = (x, y, z) \sim \Gamma_{\text{trans}}$, mientras que las rotaciones rígidas globales transforman según las componentes del vector axial de momento angular $\mathbf{L} = (R_x, R_y, R_z) \sim \Gamma_{\text{rot}}$.
+
+La representación vibracional pura $\Gamma_V$, que parametriza de forma desacoplada los $3N - 6$ grados de libertad vibracionales intrínsecos, se obtiene por sustracción directa:
 \begin{equation}
 \Gamma_V = \Gamma_{3N} - \Gamma_{\text{trans}} - \Gamma_{\text{rot}}.
 \label{eq:gamma_vib_def}
 \end{equation}
 
-By Maschke's theorem and the Great Orthogonality Theorem, any reducible representation $\Gamma$ decomposes into irreducible representations (irreps) $\Gamma^\alpha$ with multiplicity $m_\alpha$:
+\subsection{Teorema de Maschke y descomposición espectral}
+En virtud del Teorema de Maschke, toda representación lineal de un grupo finito sobre un espacio vectorial unitario es completamente reducible en suma directa de subespacios invariantes irreducibles $\Gamma^\alpha$:
 \begin{equation}
-m_\alpha = \frac{1}{|G|} \sum_{g \in G} \chi^\Gamma(g) \chi^{\Gamma^\alpha}(g)^*,
+\Gamma_V = \bigoplus_{\alpha} m_\alpha \Gamma^\alpha.
+\end{equation}
+A partir de la relación de ortogonalidad fundamental de caracteres (GOT), la multiplicidad $m_\alpha$ de cada representación irreducible $\Gamma^\alpha$ en el espectro vibracional se determina analíticamente mediante la suma ponderada sobre las clases de conjugación $\mathcal{C}_k$ del grupo:
+\begin{equation}
+m_\alpha = \frac{1}{|G|} \sum_{g \in G} \chi^V(g) \chi^{\Gamma^\alpha}(g)^* = \frac{1}{|G|} \sum_{k=1}^r n_k \chi^V(C_k) \chi^{\Gamma^\alpha}(C_k)^*,
 \label{eq:multiplicity}
 \end{equation}
-where $|G|$ denotes the order of the group.
+donde $|G|$ denota el orden del grupo y $n_k$ es el número de elementos contenidos en la clase $\mathcal{C}_k$.
+
+\subsection{Operadores tensoriales y reglas de selección}
+La probabilidad de transición cuántica entre autoestados de energía estacionarios $|\psi_i\rangle$ y $|\psi_f\rangle$ promovida por un operador de interacción $\hat{\mathcal{O}}$ se rige por el elemento de matriz de transición dipolar o multipolar $\mathcal{M}_{fi} = \langle \psi_f | \hat{\mathcal{O}} | \psi_i \rangle$. Aplicando el teorema de Wigner--Eckart~\cite{Wigner1959, Ramadevi2019}, la integral sobre el espacio de configuración se anula idénticamente salvo que la representación del producto tensorial contenga la representación totalmente simétrica (identidad) del grupo:
+\begin{equation}
+\Gamma_f \otimes \Gamma_{\mathcal{O}} \otimes \Gamma_i \supset \Gamma_{\text{trivial}}.
+\label{eq:selection_rule_wigner}
+\end{equation}
+Para transiciones fundamentales que parten del estado base vibracional totalmente simétrico ($|\psi_i\rangle \sim \Gamma_{\text{trivial}}$), la Ec.~(\ref{eq:selection_rule_wigner}) exige rigurosamente que el modo excitado posea la misma simetría irreducible que el operador perturbador: $\Gamma_f = \Gamma_{\mathcal{O}}$.
+
+Consecuentemente:
+\begin{itemize}
+    \item \textbf{Actividad Infrarroja (IR):} Está mediada por el operador momento dipolar eléctrico vectorial $\hat{\bm{\mu}} = e(x, y, z)$. Un modo vibracional es activo en IR si su representación irreducible transforma como alguna de las componentes cartesianas lineales: $\Gamma_v \subset \Gamma(x, y, z)$.
+    \item \textbf{Actividad Raman:} La dispersión inelástica está gobernada por el tensor simétrico de polarizabilidad electrónica $\bm{\alpha}$, cuyas 6 componentes independientes transforman como combinaciones cuadráticas de las coordenadas espaciales: $\Gamma_v \subset \Gamma(x^2, y^2, z^2, xy, xz, yz)$.
+\end{itemize}
